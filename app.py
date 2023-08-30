@@ -22,4 +22,26 @@ def show_homepage():
 @app.get('/users')
 def show_users():
     """Show a list of all users"""
+
+    #Add info from db
+
     return render_template('user_listing.html')
+
+@app.get('/users/new')
+def show_add_user_form():
+    """Shows an add form for new users"""
+    return render_template('user_form.html')
+
+@app.post('/users/new')
+def handle_add_user_form():
+    """Process new user form and redirect to user listing"""
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+    image_url = request.form["image_url"]
+
+    user = User(first_name=first_name, last_name=last_name, image_url=image_url)
+
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect('/users')
