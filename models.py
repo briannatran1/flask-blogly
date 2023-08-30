@@ -1,1 +1,41 @@
 """Models for Blogly."""
+
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
+
+
+def connect_db(app):
+    """Connect to database."""
+
+    app.app_context().push()
+    db.app = app
+    db.init_app(app)
+
+
+DEFAULT_URL = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106'
+
+
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        autoincrement=True
+    )
+
+    first_name = db.Column(
+        db.String(50),
+        nullable=False,
+    )
+
+    last_name = db.Column(
+        db.String(50),
+        nullable=False
+    )
+
+    image_url = db.Column(
+        db.String,
+        nullable=True,
+        default=DEFAULT_URL
+    )
