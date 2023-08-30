@@ -4,21 +4,30 @@
 
 {% block content %}
 
-<h1>Create a user</h1>
+<h1 class="text-center">Create a user</h1>
 
-<form action="/users/new" method="POST">
+<section class="container d-flex justify-content-center">
+  <form action="/users/new" method="POST">
 
-  <label class="form-label" for="first_name">First name:</label>
-  <input class="form-control" type="text" name="first_name" placeholder="Enter a first name">
+      <label class="form-label" for="first_name">First name:</label>
 
-  <label class="form-label" for="last_name">Last name:</label>
-  <input class="form-control" type="text" name="last_name" placeholder="Enter a last name">
+        <input class="form-control" type="text" name="first_name" placeholder="Enter a first name">
 
-  <label class="form-label" for="image_url">Image URL:</label>
-  <input class="form-control" type="text" name="image_url" placeholder="Provide an image of this user">
 
-  <input type="submit" value="Add" class="btn btn-success">
 
-</form>
+
+
+    <label class="form-label" for="last_name">Last name:</label>
+    <input class="form-control" type="text" name="last_name" placeholder="Enter a last name">
+
+    <label class="form-label" for="image_url">Image URL:</label>
+    <input class="form-control" type="text" name="image_url" placeholder="Provide an image of this user">
+
+    <input type="submit" value="Add" class="btn btn-success mt-3">
+
+  </form>
+
+
+</section>
 
 {% endblock %}
