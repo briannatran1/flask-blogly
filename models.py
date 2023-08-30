@@ -12,7 +12,7 @@ def connect_db(app):
     db.init_app(app)
 
 
-DEFAULT_URL = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106'
+DEFAULT_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106'
 
 
 class User(db.Model):
@@ -36,6 +36,6 @@ class User(db.Model):
 
     image_url = db.Column(
         db.String,
-        nullable=True,
-        default=DEFAULT_URL
+        nullable=False,
+        default=DEFAULT_IMAGE_URL
     )
