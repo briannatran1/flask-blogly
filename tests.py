@@ -33,7 +33,6 @@ class UserViewTestCase(TestCase):
         Post.query.delete()
         User.query.delete()
 
-
         self.client = app.test_client()
 
         test_user = User(
@@ -42,10 +41,8 @@ class UserViewTestCase(TestCase):
             image_url=None,
         )
 
-
         db.session.add(test_user)
         db.session.commit()
-
 
         # We can hold onto our test_user's id by attaching it to self (which is
         # accessible throughout this test class). This way, we'll be able to
@@ -110,7 +107,8 @@ class UserViewTestCase(TestCase):
     def test_delete_user_and_redirect(self):
         """Makes sure user is redirected to user listing after deleting"""
         with self.client as c:
-
+            Post.query.delete()
+            db.session.commit()
 
             resp = c.post(f"/users/{self.user_id}/delete",
                           data={"user_id": self.user_id})
@@ -133,7 +131,7 @@ class UserViewTestCase(TestCase):
             resp = c.post('/users/new',
                           data={"first_name": 'Chris',
                                 "last_name": 'Alley'},
-                                follow_redirects=True)
+                          follow_redirects=True)
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
