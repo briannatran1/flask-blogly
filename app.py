@@ -43,7 +43,7 @@ def handle_add_user_form():
     """Process new user form and redirect to user listing"""
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
-    image_url = request.form["image_url"]
+    image_url = request.form["image_url"] or None
 
     user = User(first_name=first_name,
                 last_name=last_name, image_url=image_url)
