@@ -6,10 +6,11 @@
 {% block content %}
 
 <h1 class="text-center">{{ user.first_name }} {{ user.last_name }}</h1>
+<div class="container dflex justify-content-center w-60 mx-auto">
+  <img src="{{ user.image_url }}" alt="A picture of {{ user.first_name }}">
 
-<img src="{{ user.image_url }}" alt="A picture of {{ user.first_name }}">
-
-<a href="/users/{{ user. id }}/edit" class="btn btn-primary">Edit</a>
+  <a href="/users/{{ user. id }}/edit" class="btn btn-primary">Edit</a>
+</div>
 
 <form action="/users/{{ user. id }}/delete" method="post">
   <button class="btn btn-danger">Delete</button>
