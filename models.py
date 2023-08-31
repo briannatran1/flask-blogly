@@ -3,6 +3,8 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
+DEFAULT_IMAGE_URL = '/static/images/default-img.jpg'
+
 
 def connect_db(app):
     """Connect to database."""
@@ -10,9 +12,6 @@ def connect_db(app):
     app.app_context().push()
     db.app = app
     db.init_app(app)
-
-
-DEFAULT_IMAGE_URL = '/static/images/default-img.jpg'
 
 
 class User(db.Model):
@@ -23,7 +22,7 @@ class User(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True,
-        autoincrement=True
+        autoincrement=True  # don't have to include; optional for PK
     )
 
     first_name = db.Column(

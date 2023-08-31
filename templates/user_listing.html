@@ -5,13 +5,14 @@
 {% block content %}
 
 
-  <h1 class="text-center">Users</h1>
+<h1 class="text-center">Users</h1>
 
-
+<!-- separate tags on diff lines -->
 
 <ul class="text-center list-group mt-3">
   {% for user in users %}
-  <li class="list-group-item list-group-item-light"> <a href="/users/{{ user.id }}" class="text-decoration-none">{{ user.first_name }} {{ user.last_name }}</a></li>
+  <li class="list-group-item list-group-item-light"> <a href="/users/{{ user.id }}" class="text-decoration-none">
+      {{ user.first_name }} {{ user.last_name }}</a></li>
   {% endfor %}
 </ul>
 

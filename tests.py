@@ -3,6 +3,7 @@ from app import app, db
 from unittest import TestCase
 import os
 
+# make separate db for tests!
 os.environ["DATABASE_URL"] = "postgresql:///blogly_test"
 
 
@@ -70,7 +71,7 @@ class UserViewTestCase(TestCase):
             self.assertIn("Create a user", html)
             self.assertIn("<form", html)
 
-    def test_user_info(self):
+    def test_show_user_info(self):
         """Shows information about a given user"""
         with self.client as c:
             resp = c.get(f"/users/{self.user_id}")
@@ -81,7 +82,7 @@ class UserViewTestCase(TestCase):
             self.assertIn('test1_first', html)
             self.assertIn('test1_last', html)
 
-    def test_edit(self):
+    def test_show_edit_page(self):
         """Make sure edit page is shown for user"""
         with self.client as c:
             resp = c.get(f"/users/{self.user_id}/edit")
@@ -91,7 +92,7 @@ class UserViewTestCase(TestCase):
 
             self.assertIn('Edit a user', html)
 
-    def test_home_redirection(self):
+    def test_delete_user_and_redirect(self):
         """Makes sure user is redirected to user listing after deleting"""
         with self.client as c:
             resp = c.post(f"/users/{self.user_id}/delete",
@@ -100,7 +101,7 @@ class UserViewTestCase(TestCase):
             self.assertEqual(resp.status_code, 302)
             self.assertEqual(resp.location, '/')
 
-    def test_home_redirection_followed(self):
+    def test_redirection_followed(self):
         """Confirms redirection"""
         with self.client as c:
             resp = c.get('/', follow_redirects=True)
@@ -108,3 +109,6 @@ class UserViewTestCase(TestCase):
 
             self.assertEqual(resp.status_code, 200)
             self.assertIn('Users', html)
+
+    # TODO: create test for creating a new user w/post
+    # be more specific in test names
