@@ -1,11 +1,10 @@
+from models import DEFAULT_IMAGE_URL, User
+from app import app, db
+from unittest import TestCase
 import os
 
 os.environ["DATABASE_URL"] = "postgresql:///blogly_test"
 
-from unittest import TestCase
-
-from app import app, db
-from models import DEFAULT_IMAGE_URL, User
 
 # Make Flask errors be real errors, rather than HTML pages with error info
 app.config['TESTING'] = True
@@ -54,6 +53,7 @@ class UserViewTestCase(TestCase):
         db.session.rollback()
 
     def test_list_users(self):
+        """Shows list of users"""
         with self.client as c:
             resp = c.get("/users")
             self.assertEqual(resp.status_code, 200)
@@ -62,9 +62,49 @@ class UserViewTestCase(TestCase):
             self.assertIn("test1_last", html)
 
     def test_show_user_form(self):
+        """Shows creating a new user form"""
         with self.client as c:
             resp = c.get("/users/new")
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
             self.assertIn("Create a user", html)
             self.assertIn("<form", html)
+
+    def test_user_info(self):
+        """Shows information about a given user"""
+        with self.client as c:
+            resp = c.get(f"/users/{self.user_id}")
+            self.assertEqual(resp.status_code, 200)
+
+            html = resp.get_data(as_text=True)
+
+            self.assertIn('test1_first', html)
+            self.assertIn('test1_last', html)
+
+    def test_edit(self):
+        """Make sure edit page is shown for user"""
+        with self.client as c:
+            resp = c.get(f"/users/{self.user_id}/edit")
+            self.assertEqual(resp.status_code, 200)
+
+            html = resp.get_data(as_text=True)
+
+            self.assertIn('Edit a user', html)
+
+    def test_home_redirection(self):
+        """Makes sure user is redirected to user listing after deleting"""
+        with self.client as c:
+            resp = c.post(f"/users/{self.user_id}/delete",
+                          data={"user_id": self.user_id})
+
+            self.assertEqual(resp.status_code, 302)
+            self.assertEqual(resp.location, '/')
+
+    def test_home_redirection_followed(self):
+        """Confirms redirection"""
+        with self.client as c:
+            resp = c.get('/', follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('Users', html)
