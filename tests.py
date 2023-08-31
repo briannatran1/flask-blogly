@@ -110,5 +110,16 @@ class UserViewTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertIn('Users', html)
 
+    def test_create_new_user(self):
+        """Creates a new user"""
+        with self.client as c:
+            resp = c.post('/users/new',
+                          data={"first_name": 'Chris',
+                                "last_name": 'Alley'})
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('Chris', html)
+
     # TODO: create test for creating a new user w/post
     # be more specific in test names

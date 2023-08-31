@@ -43,7 +43,7 @@ def handle_add_user_form():
     """Process new user form and redirect to user listing"""
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
-    image_url = request.form["image_url"] or None
+    image_url = request.form.get("image_url", None)
 
     user = User(first_name=first_name,
                 last_name=last_name, image_url=image_url)
@@ -103,6 +103,7 @@ def delete_user(user_id):
 
     return redirect('/')
 
+
 @app.get('/users/<int:user_id>/posts/new')
 def show_add_post_form(user_id):
     """Show form to add post for this user"""
@@ -110,13 +111,14 @@ def show_add_post_form(user_id):
 
     return render_template('new_post.html', user=user)
 
+
 @app.post('/users/<int:user_id>/posts/new')
 def handle_new_post_form(user_id):
     """Handle add form and redirect to user detail page"""
     user = User.query.get_or_404(user_id)
 
-    title=request.form["title"]
-    content=request.form["content"]
+    title = request.form["title"]
+    content = request.form["content"]
 
     post = Post(title=title, content=content, user_id=user.id)
 
@@ -124,3 +126,50 @@ def handle_new_post_form(user_id):
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
+
+
+@app.get('/posts/<int:post_id>')
+def show_post(post_id):
+    """Shows user a post"""
+    post = Post.query.get_or_404(post_id)
+    user = post.user
+
+    return render_template('post_details.html',
+                           post=post,
+                           user=user)
+
+
+@app.get('/posts/<int:post_id>/edit')
+def show_edit_post_form(post_id):
+    """Shows form to edit a post and redirects user back to user detail page if canceled"""
+    post = Post.query.get_or_404(post_id)
+    user = post.user
+
+    return render_template('edit_post.html',
+                           post=post,
+                           user=user)
+
+
+@app.post('/posts/<int:post_id>/edit')
+def handle_edit_post(post_id):
+    """Processes editing of a post. Redirects back to the post page"""
+    post = Post.query.get_or_404(post_id)
+
+    post.title = request.form['title']
+    post.content = request.form['content']
+
+    db.session.commit()
+
+    return redirect(f'/posts/{post_id}')
+
+
+@app.post('/posts/<int:post_id>/delete')
+def delete_post(post_id):
+    """Deletes the specified post"""
+    post = Post.query.get_or_404(post_id)
+    user = post.user
+
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(f'/users/{user.id}')
