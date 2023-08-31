@@ -6,21 +6,23 @@
 
 {% block content %}
 
-<h1>Edit Post</h1>
+<div class="container">
+  <h1>Edit Post</h1>
 
-<form action="/posts/{{ post.id }}/edit" method="POST">
-  <div>
-    <label for="">Title</label>
-    <input type="text" name="title" value="{{ post.title }}">
-  </div>
+  <form action="/posts/{{ post.id }}/edit" method="POST">
+    <div class="mb-4">
+      <label for="">Title</label>
+      <input class="form-control" type="text" name="title" value="{{ post.title }}">
+    </div>
 
-  <div>
-    <label for="">Content</label>
-    <textarea name="content" value="{{ post.content }}" cols="30" rows="10"></textarea>
-  </div>
+    <div>
+      <label for="">Content</label>
+      <textarea class="form-control" name="content" cols="30" rows="10">{{ post.content }}</textarea>
+    </div>
 
-  <button class="btn btn-outline-info" formaction="/posts/{{ post.id }}" formmethod="GET">Cancel</button>
-  <button class="btn btn-success">Edit</button>
-</form>
+    <button class="btn btn-outline-info mt-3" formaction="/users/{{ user.id }}" formmethod="GET">Cancel</button>
+    <button class="btn btn-success mt-3">Edit</button>
+  </form>
+</div>
 
 {% endblock %}

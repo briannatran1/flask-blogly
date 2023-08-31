@@ -5,20 +5,23 @@
 
 {% block content %}
 
-<h1>Add Post for {{ user.first_name}} {{ user.last_name}}</h1>
+<div class="container">
+  <h1>Add Post for {{ user.first_name}} {{ user.last_name}}</h1>
 
-<form action="/users/{{ user.id }}/posts/new" method="POST">
-  <div>
-    <label for="">Title</label>
-    <input class="form-control" type="text" name="title">
-  </div>
-  <div>
-    <label for="">Content</label>
-    <textarea name="content" cols="30" rows="10"></textarea>
-  </div>
+  <form action="/users/{{ user.id }}/posts/new" method="POST">
+    <div>
+      <label class="mt-3">Title</label>
+      <input class="form-control" type="text" name="title">
+    </div>
+    <div>
+      <label class="mt-3">Content</label>
+      <textarea class="form-control" name="content" cols="30" rows="10"></textarea>
+    </div>
 
-  <button class="btn btn-info">Cancel</button>
-  <button class="btn btn-success">Add</button>
-</form>
+    <button class="btn btn-info mt-3" formaction="/users/{{ user.id }}" formmethod="GET">Cancel</button>
+    <button class="btn btn-success mt-3">Add</button>
+  </form>
+</div>
+
 
 {% endblock %}

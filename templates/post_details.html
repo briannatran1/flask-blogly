@@ -15,7 +15,7 @@
 <form action="/posts/{{ post.id }}/edit" method="POST">
   <button class="btn btn-outline-primary" formaction="/posts/{{ post. id }}" formmethod="GET">Cancel</button>
   <button class="btn btn-primary" formmethod="GET">Edit</button>
-  <button class="btn btn-danger" formaction="/users/{{ user. id }}">Delete</button>
+  <button class="btn btn-danger" formaction="/posts/{{ post.id }}/delete">Delete</button>
 </form>
 
 {% endblock %}
