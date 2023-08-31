@@ -4,7 +4,7 @@ import os
 
 from flask import Flask, render_template, request, redirect
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post, DEFAULT_IMAGE_URL
+from models import db, connect_db, User, Post, Tag, PostTag, DEFAULT_IMAGE_URL
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(

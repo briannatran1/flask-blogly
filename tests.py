@@ -1,4 +1,4 @@
-from models import DEFAULT_IMAGE_URL, User, Post
+from models import DEFAULT_IMAGE_URL, User, Post, Tag, PostTag
 from app import app, db
 from unittest import TestCase
 import os
