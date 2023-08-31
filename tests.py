@@ -30,7 +30,9 @@ class UserViewTestCase(TestCase):
         # As you add more models later in the exercise, you'll want to delete
         # all of their records before each test just as we're doing with the
         # User model below.
+        Post.query.delete()
         User.query.delete()
+
 
         self.client = app.test_client()
 
@@ -108,6 +110,8 @@ class UserViewTestCase(TestCase):
     def test_delete_user_and_redirect(self):
         """Makes sure user is redirected to user listing after deleting"""
         with self.client as c:
+
+
             resp = c.post(f"/users/{self.user_id}/delete",
                           data={"user_id": self.user_id})
 
@@ -136,30 +140,31 @@ class UserViewTestCase(TestCase):
             self.assertIn('Chris', html)
             self.assertIn('Alley', html)
 
-    # def test_handle_new_post_form(self):
-    #     """Tests handling of new post form"""
-    #     with self.client as c:
-    #         resp = c.post(f'/users/{self.user_id}/posts/new',
-    #                       data={
-    #                           'title': 'Very cool post',
-    #                           'content': 'This is some amzing content'
-    #                       },
-    #                       follow_redirects=True)
-    #         html = resp.get_data(as_text=True)
+    def test_handle_new_post_form(self):
+        """Tests handling of new post form"""
+        with self.client as c:
+            resp = c.post(f'/users/{self.user_id}/posts/new',
+                          data={
+                              'title': 'Very cool post',
+                              'content': 'This is some amzing content'
+                          },
+                          follow_redirects=True)
+            html = resp.get_data(as_text=True)
 
-    #         self.assertEqual(resp.status_code, 200)
-    #         self.assertIn('Very cool post', html)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('Very cool post', html)
 
-            # resp = c.post(f'/users/{self.user_id}/posts/new',
-            #               data={
-            #                   'title': 'Such wow post',
-            #                   'content': 'This is some amzing content'
-            #               },
-            #               follow_redirects=True)
-            # html = resp.get_data(as_text=True)
+            resp = c.post(f'/users/{self.user_id}/posts/new',
+                          data={
+                              'title': 'Such wow post',
+                              'content': 'This is some amzing content'
+                          },
+                          follow_redirects=True)
+            html = resp.get_data(as_text=True)
 
-            # self.assertEqual(resp.status_code, 200)
-            # self.assertIn('Such wow post', html)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('Such wow post', html)
+
     def test_show_add_post_form(self):
         """Tests showing user the add post form"""
         with self.client as c:
