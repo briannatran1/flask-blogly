@@ -182,3 +182,13 @@ class UserViewTestCase(TestCase):
 
             self.assertEqual(resp.status_code, 200)
             self.assertIn('Edit Post', html)
+
+    def test_delete_post(self):
+        """Makes sure post is deleted"""
+        with self.client as c:
+            resp = c.post(f'/posts/{self.post_id}/delete',
+                          follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertNotIn('test1_title', html)
