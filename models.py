@@ -41,6 +41,8 @@ class User(db.Model):
         default=DEFAULT_IMAGE_URL
     )
 
+    posts = db.relationship('Post', backref='user')
+
 class Post(db.Model):
     """Post."""
 
