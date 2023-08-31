@@ -12,10 +12,12 @@ def connect_db(app):
     db.init_app(app)
 
 
-DEFAULT_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106'
+DEFAULT_IMAGE_URL = '/static/images/default-img.jpg'
 
 
 class User(db.Model):
+    """User."""
+
     __tablename__ = "users"
 
     id = db.Column(
