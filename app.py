@@ -181,3 +181,37 @@ def delete_post(post_id):
     db.session.commit()
 
     return redirect(f'/users/{user.id}')
+
+"""Tag routes go here"""
+
+@app.get('/tags')
+def show_all_tags_page():
+    """Show list of all tags"""
+    tags = Tag.query.all()
+
+    return render_template('tags_list.html', tags=tags)
+
+@app.get('/tags/<int:tag_id>')
+def show_tag_details(tag_id):
+    """Show details about tag and edit/delete buttons"""
+    tag = Tag.query.get_or_404(tag_id)
+    posts = tag.posts
+
+    return render_template('tag_details.html', tag=tag, posts=posts)
+
+@app.get('/tags/new')
+def show_add_tag_form():
+    """Show form to add a new tag"""
+    return render_template('add_tag.html')
+
+@app.post('/tags/new')
+def handle_new_tag_form():
+    """Handles new tag form submission"""
+    name = request.form["name"]
+
+    tag = Tag(name=name)
+
+    db.session.add(tag)
+    db.session.commit()
+
+    return redirect('/tags')
