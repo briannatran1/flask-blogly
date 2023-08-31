@@ -4,7 +4,7 @@ import os
 
 from flask import Flask, render_template, request, redirect
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, DEFAULT_IMAGE_URL
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
@@ -30,6 +30,8 @@ def show_users():
 
     return render_template('user_listing.html',
                            users=data)
+
+# USERS ROUTES
 
 
 @app.get('/users/new')
@@ -82,7 +84,7 @@ def processes_form(user_id):
 
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
-    image_url = request.form["image_url"]
+    image_url = request.form["image_url"] or DEFAULT_IMAGE_URL
 
     user.first_name = first_name
     user.last_name = last_name
@@ -103,6 +105,8 @@ def delete_user(user_id):
 
     return redirect('/')
 
+# POST ROUTES
+
 
 @app.get('/users/<int:user_id>/posts/new')
 def show_add_post_form(user_id):
@@ -120,7 +124,9 @@ def handle_new_post_form(user_id):
     title = request.form["title"]
     content = request.form["content"]
 
-    post = Post(title=title, content=content, user_id=user.id)
+    post = Post(title=title, content=content, user=user)  # user_id = user.id
+
+    # add flash message for post success
 
     db.session.add(post)
     db.session.commit()
@@ -157,6 +163,8 @@ def handle_edit_post(post_id):
 
     post.title = request.form['title']
     post.content = request.form['content']
+
+    # success message => flash
 
     db.session.commit()
 

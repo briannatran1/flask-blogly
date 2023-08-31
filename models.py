@@ -43,6 +43,7 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user')
 
+
 class Post(db.Model):
     """Post."""
 
@@ -60,7 +61,7 @@ class Post(db.Model):
     )
 
     content = db.Column(
-        db.String,
+        db.Text,
         nullable=False
     )
 
