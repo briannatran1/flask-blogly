@@ -19,7 +19,7 @@
     </div>
     <div>
       {% for tag in tags %}
-      <input type="checkbox" name="{{ tag.name }}" value="{{ tag.name }}">
+      <input type="checkbox" name="tag" value="{{ tag.name }}">
       <label for="{{ tag.name }}">{{ tag.name }}</label>
       {% endfor %}
     </div>
