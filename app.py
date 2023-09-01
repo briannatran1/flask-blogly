@@ -112,8 +112,11 @@ def delete_user(user_id):
 def show_add_post_form(user_id):
     """Show form to add post for this user"""
     user = User.query.get_or_404(user_id)
+    tags = Tag.query.all()
 
-    return render_template('new_post.html', user=user)
+    return render_template('new_post.html',
+                           user=user,
+                           tags=tags)
 
 
 @app.post('/users/<int:user_id>/posts/new')
@@ -123,8 +126,17 @@ def handle_new_post_form(user_id):
 
     title = request.form["title"]
     content = request.form["content"]
+    # tags = Tag.query.all()
+    tag = request.form["tag"]
+
+    # tags_data = request.form.getlist("tag")
 
     post = Post(title=title, content=content, user=user)  # user_id = user.id
+    post.tags.append(tag)
+
+    # for tag in tags:
+    #     if tag in tags_data:
+    #         post.tags.append(tag)
 
     # add flash message for post success
 
@@ -139,10 +151,12 @@ def show_post(post_id):
     """Shows user a post"""
     post = Post.query.get_or_404(post_id)
     user = post.user
+    tags = post.tags
 
     return render_template('post_details.html',
                            post=post,
-                           user=user)
+                           user=user,
+                           tags=tags)
 
 
 @app.get('/posts/<int:post_id>/edit')
